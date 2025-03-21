@@ -61,9 +61,9 @@ public class App {
                 if (motivations.size() == 0) {
                     System.out.println("등록된 moti 없어");
                 } else {
-                    for (Motivation motivation : motivations) {//motivations의 사이즈가 2니까 2번 반복하는데
+                    for (int i = motivations.size(); i >= 1; i--) {//이거 전버전으로 하면 첫번째 글이 제일 위로 올라와서 그냥 for문으로 바꿈
                         System.out.printf("%d      /     %s          /       %s                 \n"
-                                , motivation.getId(), motivation.getBody(), motivation.getSource());
+                                ,motivations.get(i-1).getId(),motivations.get(i-1).getBody(),motivations.get(i-1).getSource());
                     }
                 }
 
@@ -80,7 +80,7 @@ class Motivation {
     String body;
     String source;
 
-    public int getId() {//밑에서 setter 역활을 해주는 친구가 있어서 getter만 함
+    public int getId() {
         return id;
     }
 
@@ -92,7 +92,7 @@ class Motivation {
         return source;
     }
 
-    public Motivation(int id, String body, String source) {//여기서 setter역활을 해줌
+    public Motivation(int id, String body, String source) {
         this.id = id;
         this.body = body;
         this.source = source;
