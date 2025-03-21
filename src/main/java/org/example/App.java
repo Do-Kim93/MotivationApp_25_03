@@ -1,9 +1,8 @@
 package org.example;
 
-import org.example.motivation.entity.Motivation;
+import org.example.motivation.controller.MotivationController;
+import org.example.system.controller.SystemController;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class App {
@@ -17,16 +16,25 @@ public class App {
     public void run() {
         System.out.println("== motivation 실행 ==");
 
-        int lastId = 0;
-
-        List<Motivation> motivations = new ArrayList<>();
+        SystemController systemController = new SystemController();
+        MotivationController motivationController = new MotivationController(sc);
 
         while (true) {
-            System.out.print("명령어) ");
+            System.out.println("명령어- 추가:add, 목록:list, 삭제:remove 삭제하려는 글 id ");
             String cmd = sc.nextLine().trim();
-
+            String cmd1 = "";
+            int cmd2 = 0;
+            try {//고민 하다 그냥 예외처리로 감싸버림 이렇게 안하면 if문 너무 많이 써야함
+                if (cmd.contains("remove ")){
+                    cmd1 = cmd.split(" ")[0];
+                    cmd2 = Integer.parseInt(cmd.split(" ")[1]);
+                }
+            }catch (Exception e){
+                System.out.println("사용할 수 없는 명령어야");
+                continue;
+            }
             if (cmd.equals("exit")) {
-                System.out.println("== motivation 종료 ==");
+                systemController.exit();
                 break;
             } else if (cmd.length() == 0) {
                 System.out.println("명령어가 입력되지 않았음");
@@ -34,39 +42,14 @@ public class App {
             }
 
             if (cmd.equals("add")) {
-                int id = lastId + 1;
-                System.out.print("body : ");
-                String body = sc.nextLine();
-                System.out.print("source : ");
-                String source = sc.nextLine();
-
-                Motivation motivation = new Motivation(id, body, source);
-
-                motivations.add(motivation);
-
-                System.out.printf("%d번 motivation이 등록됨\n", id);
-                lastId++;
+                motivationController.add();
             } else if (cmd.equals("list")) {
-                if (motivations.size() == 0) {
-                    System.out.println("등록된 moti 없어");
-                    continue;
-                }
+                motivationController.list();
+            } else if (cmd1.equals("remove")) {//근데 컨테인스 쓰면 remove가 포합되어 있고 뒤에 숫자가 없어도 실행되서 오류로 넘어가는 함정이 있음
+                    motivationController.del(cmd2);
 
-                System.out.println("=".repeat(40));
-                System.out.print("   id    /     source      /      body        \n");
-
-                for (int i = motivations.size() - 1; i >= 0; i--) {
-                    Motivation motivation = motivations.get(i);
-
-                    if (motivation.getSource().length() > 7) {
-                        System.out.printf("   %d    /     %s     /      %s        \n", motivation.getId(), motivation.getSource().substring(0, 5) + "...", motivation.getBody());
-                        continue;
-                    }
-                    System.out.printf("   %d    /     %s        /      %s        \n", motivation.getId(), motivation.getSource(), motivation.getBody());
-                }
-
-                System.out.println("=".repeat(40));
-            } else {
+            }
+            else {
                 System.out.println("사용할 수 없는 명령어야");
                 continue;
             }
