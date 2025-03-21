@@ -51,30 +51,20 @@ public class App {
 
                 motivations.add(motivation);
 
-//                if (motivation.id == 1) {
-//                    motivation0 = motivation;
-//                } else if (motivation.id == 2) {
-//                    motivation1 = motivation;
-//                } else if (motivation.id == 3) {
-//                    motivation2 = motivation;
-//                }
 
                 System.out.printf("%d번 motivation이 등록됨\n", id);
                 lastId++;
             } else if (cmd.equals("list")) {
                 System.out.println("=".repeat(40));
                 System.out.printf("   번호    /     source      /      motivation        \n");
-//                System.out.println(motivation0.toString());
-//                System.out.println(motivation1.toString());
-//                System.out.println(motivation2.toString());
-//                for (Motivation motivation : motivations) {
-//                    System.out.println(motivation.toString());
-//                }
 
                 if (motivations.size() == 0) {
                     System.out.println("등록된 moti 없어");
                 } else {
-                    System.out.println("1개 이상 있음");
+                    for (Motivation motivation : motivations) {//motivations의 사이즈가 2니까 2번 반복하는데
+                        System.out.printf("%d      /     %s          /       %s                 \n"
+                                , motivation.getId(), motivation.getBody(), motivation.getSource());
+                    }
                 }
 
                 System.out.println("=".repeat(40));
@@ -90,7 +80,19 @@ class Motivation {
     String body;
     String source;
 
-    public Motivation(int id, String body, String source) {
+    public int getId() {//밑에서 setter 역활을 해주는 친구가 있어서 getter만 함
+        return id;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public Motivation(int id, String body, String source) {//여기서 setter역활을 해줌
         this.id = id;
         this.body = body;
         this.source = source;
