@@ -68,6 +68,14 @@ public class App {
                 }
 
                 System.out.println("=".repeat(40));
+            } else if (cmd.contains("remove")) {
+                int id = Integer.parseInt(cmd.split(" ")[1]);
+                try{
+                    motivations.remove(id-1);
+                    System.out.printf("%d번 motivation이 삭제되었습니다.\n", id);
+                }catch (IndexOutOfBoundsException e){
+                    System.out.println("해당 id의 글이 없습니다");
+                }
             }
 
 
@@ -98,12 +106,12 @@ class Motivation {
         this.source = source;
     }
 
-    @Override
-    public String toString() {
-        return "Motivation{" +
-                "id=" + id +
-                ", body='" + body + '\'' +
-                ", source='" + source + '\'' +
-                '}';
+//    @Override
+//    public String toString() {
+//        return "Motivation{" +
+//                "id=" + id +
+//                ", body='" + body + '\'' +
+//                ", source='" + source + '\'' +
+//                '}';
     }
-}
+//}
