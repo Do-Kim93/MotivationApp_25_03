@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.motivation.entity.Motivation;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -17,13 +19,7 @@ public class App {
 
         int lastId = 0;
 
-//        Motivation motivation0 = null;
-//        Motivation motivation1 = null;
-//        Motivation motivation2 = null;
-
-//        Motivation[] motivations = new Motivation[2];
-
-        List<Motivation> motivations = new ArrayList<Motivation>();
+        List<Motivation> motivations = new ArrayList<>();
 
         while (true) {
             System.out.print("명령어) ");
@@ -45,73 +41,35 @@ public class App {
                 String source = sc.nextLine();
 
                 Motivation motivation = new Motivation(id, body, source);
-//                motivation.id = id;
-//                motivation.body = body;
-//                motivation.source = source;
 
                 motivations.add(motivation);
-
 
                 System.out.printf("%d번 motivation이 등록됨\n", id);
                 lastId++;
             } else if (cmd.equals("list")) {
-                System.out.println("=".repeat(40));
-                System.out.printf("   번호    /     source      /      motivation        \n");
-
                 if (motivations.size() == 0) {
                     System.out.println("등록된 moti 없어");
-                } else {
-                    for (int i = motivations.size(); i >= 1; i--) {//이거 전버전으로 하면 첫번째 글이 제일 위로 올라와서 그냥 for문으로 바꿈
-                        System.out.printf("%d      /     %s          /       %s                 \n"
-                                ,motivations.get(i-1).getId(),motivations.get(i-1).getBody(),motivations.get(i-1).getSource());
-                    }
+                    continue;
                 }
 
                 System.out.println("=".repeat(40));
-            } else if (cmd.contains("remove")) {
-                int id = Integer.parseInt(cmd.split(" ")[1]);
-                try{
-                    motivations.remove(id-1);
-                    System.out.printf("%d번 motivation이 삭제되었습니다.\n", id);
-                }catch (IndexOutOfBoundsException e){
-                    System.out.println("해당 id의 글이 없습니다");
+                System.out.print("   id    /     source      /      body        \n");
+
+                for (int i = motivations.size() - 1; i >= 0; i--) {
+                    Motivation motivation = motivations.get(i);
+
+                    if (motivation.getSource().length() > 7) {
+                        System.out.printf("   %d    /     %s     /      %s        \n", motivation.getId(), motivation.getSource().substring(0, 5) + "...", motivation.getBody());
+                        continue;
+                    }
+                    System.out.printf("   %d    /     %s        /      %s        \n", motivation.getId(), motivation.getSource(), motivation.getBody());
                 }
+
+                System.out.println("=".repeat(40));
+            } else {
+                System.out.println("사용할 수 없는 명령어야");
+                continue;
             }
-
-
         }
     }
 }
-
-class Motivation {
-    int id;
-    String body;
-    String source;
-
-    public int getId() {
-        return id;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public Motivation(int id, String body, String source) {
-        this.id = id;
-        this.body = body;
-        this.source = source;
-    }
-
-//    @Override
-//    public String toString() {
-//        return "Motivation{" +
-//                "id=" + id +
-//                ", body='" + body + '\'' +
-//                ", source='" + source + '\'' +
-//                '}';
-    }
-//}
