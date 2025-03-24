@@ -99,4 +99,48 @@ public class MotivationController {
 
 
     }
+
+    public void update(String cmd) {
+        int id = Integer.parseInt(cmd.split(" ")[1]);
+
+        Motivation foundMotivation = null;
+        int foundIndex = -1;
+
+        for (int i = 0; i < motivations.size(); i++) {
+            Motivation motivation = motivations.get(i);
+            if (motivation.getId() == id) {
+                foundMotivation = motivation;
+                foundIndex = i;
+                break;
+            }
+        }
+
+        if (foundMotivation == null) {
+            System.out.println("해당 moti는 없던데????");
+            return;
+        }
+//        String
+        System.out.printf("기존 motivation : %s\n", foundMotivation.getBody());
+        System.out.printf("기존 source : %s\n", foundMotivation.getSource());
+        System.out.print("body : ");
+        String body = Container.getScanner().nextLine();
+        System.out.print("source : ");
+        String source = Container.getScanner().nextLine();
+        if (body.isEmpty()&&source.isEmpty()) {
+            System.out.println("변경 사항이 없습니다.");
+            return;
+        }else if (body.isEmpty()){
+//            foundMotivation.setBody(oldBody);
+            foundMotivation.setSource(source);
+        }else if (source.isEmpty()){
+            foundMotivation.setBody(body);
+//            foundMotivation.setSource(oldSource);
+        }else {
+            foundMotivation.setBody(body);
+            foundMotivation.setSource(source);
+        }
+
+
+        System.out.println(id + "번 moti 변경됨");
+    }
 }
