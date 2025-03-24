@@ -2,9 +2,7 @@ package org.example.motivation.controller;
 
 import org.example.motivation.entity.Motivation;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class MotivationController {
 
@@ -55,13 +53,7 @@ public class MotivationController {
     }
 
     public void delete(String cmd) {
-        int id = 0;
-        //굳이 새로운 메서드 만들 필요없이 delete에서 다 받아주면됨
-        if (cmd.contains("?id=")) {//조건문 걸어서 넘어오는 명령문을 두개로 나누고 자르는 형식을 다르게 돌리면 조건문 하나만 추가해서 해결 가능함
-            id = Integer.parseInt(cmd.split("=")[1]);
-        }else{
-            id = Integer.parseInt(cmd.split(" ")[1]);
-        }
+        int id = Integer.parseInt(cmd.split(" ")[1]);
 
         Motivation foundMotivation = null;
         int foundIndex = -1;
@@ -75,7 +67,6 @@ public class MotivationController {
             }
         }
 
-
         if (foundMotivation == null) {
             System.out.println("해당 moti는 없던데????");
             return;
@@ -85,24 +76,31 @@ public class MotivationController {
         System.out.println(id + "번 moti 삭제됨");
     }
 
-//    public void delete1(String cmd) { 굳이 이렇게 할 필요 없음
-//        int id = Integer.parseInt(cmd.split("=")[1]);
-//
-//        Motivation foundMotivation1 = null;
-//        int foundIndex1 = -1;
-//
-//        for (int i = 0; i < motivations.size(); i++) {
-//            Motivation motivation = motivations.get(i);
-//            if (motivation.getId() == id) {
-//                foundMotivation1 = motivation;
-//                foundIndex1 = i;
-//                break;
-//            }
-//        }
-//        if (foundMotivation1 == null) {
-//            System.out.println("해당 moti는 없던데????");
-//            return;
-//        }
-//        motivations.remove(foundIndex1);
-//        System.out.println(id + "번 moti 삭제됨");
+
+    public void newDelete(String cmd) {
+        Rq rq = new Rq(cmd);
+
+        System.out.println("rq.getParams(\"id\") : " + rq.getParams("id"));
+
+        int id = Integer.parseInt(rq.getParams("id"));
+
+        Motivation foundMotivation = null;
+
+        for (Motivation motivation : motivations) {
+            if (motivation.getId() == id) {
+                foundMotivation = motivation;
+                break;
+            }
+        }
+
+        if (foundMotivation == null) {
+            System.out.println("해당 moti는 없던데????");
+            return;
+        }
+
+        motivations.remove(foundMotivation);
+        System.out.println(id + "번 moti 삭제됨");
+
+
     }
+}

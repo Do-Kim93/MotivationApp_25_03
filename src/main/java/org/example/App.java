@@ -34,14 +34,10 @@ public class App {
                 motivationController.add();
             } else if (cmd.equals("list")) {
                 motivationController.list();
+            } else if (cmd.startsWith("delete?")) {
+                motivationController.newDelete(cmd);
             } else if (cmd.startsWith("delete")) {
                 motivationController.delete(cmd);
-//                if (cmd.contains("?id=")) { 굳이 펑션 하나더 만들 필요 없음 조건문 하나로 해결 가능한 문제
-//                    motivationController.delete1(cmd);
-//                    continue;
-//                }else {
-//                    motivationController.delete(cmd);
-//                }
             } else {
                 System.out.println("사용할 수 없는 명령어야");
                 continue;
