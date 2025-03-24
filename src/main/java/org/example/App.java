@@ -3,25 +3,16 @@ package org.example;
 import org.example.motivation.controller.MotivationController;
 import org.example.system.controller.SystemController;
 
-import java.util.Scanner;
-
 public class App {
-
-    private Scanner sc;
-
-    public App(Scanner sc) {
-        this.sc = sc;
-    }
-
     public void run() {
         System.out.println("== motivation 실행 ==");
 
         SystemController systemController = new SystemController();
-        MotivationController motivationController = new MotivationController(sc);
+        MotivationController motivationController = new MotivationController();
 
         while (true) {
             System.out.print("명령어) ");
-            String cmd = sc.nextLine().trim();
+            String cmd = Container.getScanner().nextLine().trim();
             if (cmd.equals("exit")) {
                 systemController.exit();
                 break;
